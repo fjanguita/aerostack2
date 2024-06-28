@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Copyright 2024 Universidad Politécnica de Madrid
 #
 # Redistribution and use in source and binary forms, with or without
@@ -10,7 +12,7 @@
 #      notice, this list of conditions and the following disclaimer in the
 #      documentation and/or other materials provided with the distribution.
 #
-#    * Neither the name of the the copyright holder nor the names of its
+#    * Neither the name of the Universidad Politécnica de Madrid nor the names of its
 #      contributors may be used to endorse or promote products derived from
 #      this software without specific prior written permission.
 #
@@ -26,13 +28,12 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-"""Launch file for point gimbal behavior node."""
+"""Launch file for the as2_external_object_to_tf node."""
 
-import os
+__authors__ = 'Javilinos'
+__copyright__ = 'Copyright (c) 2024 Universidad Politécnica de Madrid'
+__license__ = 'BSD-3-Clause'
 
-from ament_index_python.packages import get_package_share_directory
-from as2_core.declare_launch_arguments_from_config_file import DeclareLaunchArgumentsFromConfigFile
-from as2_core.launch_configuration_from_config_file import LaunchConfigurationFromConfigFile
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import EnvironmentVariable, LaunchConfiguration
@@ -40,34 +41,19 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description():
-    """Launch point gimbal behavior node."""
-    config_file = os.path.join(get_package_share_directory('as2_behaviors_perception'),
-                               'point_gimbal_behavior/config/config_default.yaml')
-
     return LaunchDescription([
-        DeclareLaunchArgument('namespace', description='Drone namespace',
-                              default_value=EnvironmentVariable('AEROSTACK2_SIMULATION_DRONE_ID')),
+        DeclareLaunchArgument('namespace', default_value=EnvironmentVariable(
+            'AEROSTACK2_SIMULATION_DRONE_ID')),
         DeclareLaunchArgument('use_sim_time', default_value='false'),
-        DeclareLaunchArgument('log_level', default_value='info',
-                              description='Log Severity Level'),
-        DeclareLaunchArgumentsFromConfigFile(
-            name='config_file', source_file=config_file,
-            description='Configuration file'),
+        DeclareLaunchArgument('config_file'),
         Node(
-            package='as2_behaviors_perception',
-            executable='point_gimbal_behavior_node',
+            package='as2_external_object_to_tf',
+            executable='as2_external_object_to_tf_node',
+            name='external_object_to_tf',
             namespace=LaunchConfiguration('namespace'),
+            parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')},
+                        {'config_file': LaunchConfiguration('config_file')}],
             output='screen',
-            emulate_tty=True,
-            arguments=['--ros-args', '--log-level',
-                       LaunchConfiguration('log_level')],
-            parameters=[
-                {
-                    'use_sim_time': LaunchConfiguration('use_sim_time'),
-                },
-                LaunchConfigurationFromConfigFile(
-                    'config_file',
-                    default_file=config_file),
-            ],
-        ),
+            emulate_tty=True
+        )
     ])
