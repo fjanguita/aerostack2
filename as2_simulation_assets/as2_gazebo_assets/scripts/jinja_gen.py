@@ -80,25 +80,17 @@ def get_sensors(sensors_array: list[str]) -> dict[str, str]:
     while sensors_array and sensors_array[0]:
         name = sensors_array.pop(0)
         model = sensors_array.pop(0)
-<<<<<<< HEAD
         pose, sensor_attached, sensor_attached_type, gimbal_name, \
             drone_model_name, gimbaled, sensors_array = sensors_array[:6], \
             sensors_array[6], sensors_array[7], sensors_array[8], sensors_array[9], \
             sensors_array[10], sensors_array[11:]
-=======
-        pose, sensor_attached, sensor_attached_type, gimbaled, sensors_array = sensors_array[:6], \
-            sensors_array[6], sensors_array[7], sensors_array[8], sensors_array[9:]
->>>>>>> 499-sensor-bridges-malformed
 
         sensors.append({'name': name, 'model': model,
                         'pose': f'{pose[0]} {pose[1]} {pose[2]} {pose[3]} {pose[4]} {pose[5]}',
                         'sensor_attached': sensor_attached,
                         'sensor_attached_type': sensor_attached_type,
-<<<<<<< HEAD
                         'gimbal_name': gimbal_name,
                         'drone_model_name': drone_model_name,
-=======
->>>>>>> 499-sensor-bridges-malformed
                         'gimbaled': str2bool(gimbaled)})
         print(sensors)
     return sensors
