@@ -209,8 +209,11 @@ class Drone(Entity):
                 payload += f'{roll_s} {pitch_s} {yaw_s} '
                 payload += f'{pld.payload.sensor_attached} '
                 payload += f'{pld.payload.sensor_attached_type} '
+<<<<<<< HEAD
                 payload += f'{pld.payload.gimbal_name} '
                 payload += f'{self.model_name} '
+=======
+>>>>>>> 499-sensor-bridges-malformed
                 payload += f'{pld.payload.gimbaled} '
             x_s, y_s, z_s = pld.xyz
             roll_s, pitch_s, yaw_s = pld.rpy
