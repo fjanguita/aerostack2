@@ -55,6 +55,7 @@ class ObjectBridgesTypeEnum(str, Enum):
     GPS = 'gps'
     AZIMUTH = 'azimuth'
     POSE = 'pose'
+    CMD_VEL = 'cmd_vel'
 
     def bridges(self, world_name: str, model_name: str,
                 use_sim_time: bool) -> tuple[List[Bridge], List[Node]]:
@@ -70,6 +71,8 @@ class ObjectBridgesTypeEnum(str, Enum):
             return [], [gz_custom_bridges.azimuth_node(model_name)]
         if self.name == self.POSE.name:
             return [gz_bridges.pose(model_name)], []
+        if self.name == self.CMD_VEL.name:
+            return [gz_bridges.cmd_vel(model_name)], []
         return [], []
 
 
