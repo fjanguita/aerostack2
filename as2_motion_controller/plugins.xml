@@ -9,4 +9,9 @@
             <description>Controller plugin for differential flatness.</description>
         </class>
     </library>
+    <library path="indi_controller">
+        <class type="indi_controller::Plugin" base_class_type="as2_motion_controller_plugin_base::ControllerBase">
+            <description>Controller plugin for motor angular speed.</description>
+        </class>
+    </library>
 </class_libraries>
